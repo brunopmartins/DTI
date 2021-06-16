@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+//Import all needed Component for this tutorial
+import {
+  BrowserRouter as Router,
+  Route
+} from "react-router-dom";
+import thunk from "redux-thunk";
+import { createStore, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import reducers from "./reducers";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Home from "./components/Home";
+import Movie from "./components/Movie";
+
+const store = createStore(reducers, applyMiddleware(thunk));
+
+class App extends Component {
+  render() {
+    return (
+      <Router>
+        <Provider store={store}>
+            <Route path="/" component={Home} />
+            <Route path="/movies/:id" component={Movie} />
+        </Provider>
+      </Router>
+    );
+  }
 }
 
 export default App;
